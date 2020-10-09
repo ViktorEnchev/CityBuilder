@@ -1,0 +1,12 @@
+﻿version: '3.6'
+
+services:
+    postgres-db:
+        container_name: postgres
+        image: postgres:10
+        ports:
+          - 5432:5432
+        environment:
+          POSTGRES_DB: process-engine
+          POSTGRES_USER: root
+          POSTGRES_PASSWORD: root
