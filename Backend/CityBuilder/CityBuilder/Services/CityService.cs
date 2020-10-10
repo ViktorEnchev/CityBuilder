@@ -25,18 +25,21 @@ namespace CityBuilder.Services
         private readonly CityBuilderDbContext context;
         private readonly IMapper mapper;
 
-        public CityRoadsNetworkOutputModel GetCityRoadsNetwork(int id)
+        public async Task<CityRoadsNetworkOutputModel> GetCityRoadsNetwork(int id)
         {
-            if (!this.context.Cities.Any(c => c.Id == id))
+            if (!(await this.context.Cities.AnyAsync(c => c.Id == id)))
             {
                 throw new NotFoundException($"City with id: {id} doesn't exist");
             }
 
-            var city = this.context.Cities.FirstOrDefault(c => c.Id == id);
+            var city = await this.context.Cities.FirstOrDefaultAsync(c => c.Id == id);
             var cityRoadsNetwork = this.mapper.Map<CityRoadsNetworkOutputModel>(city);
 
-            var roads = this.context.Roads.Include(r => r.FirstCity).Include(r => r.SecondCity).Where(r => r.FirstCityId == id || r.SecondCityId == id)
-                .ToList();
+            var roads = await this.context.Roads
+                .Include(r => r.FirstCity)
+                .Include(r => r.SecondCity)
+                .Where(r => r.FirstCityId == id || r.SecondCityId == id)
+                .ToListAsync();
 
             cityRoadsNetwork.Roads = roads.Select(r => new RoadToSecondCity()
             {
@@ -59,51 +62,57 @@ namespace CityBuilder.Services
             return cityRoadsNetwork;
         }
 
-        public CitiesOutputModel GetCities()
+        public async Task<CitiesOutputModel> GetCities()
         {
-            var cities = this.context.Cities.ToList();
+            var cities = await this.context.Cities.ToListAsync();
 
             var resultCities = this.mapper.Map<CitiesOutputModel>(cities);
 
             return resultCities;
         }
 
-        public async Task<CityOutputModel> AddCity(AddCityInputModel city)
+        public async Task<CityOutputModel> AddCity(AddCityInputModel cityInputModel)
         {
-            if (this.context.Cities.Any(c => c.Name.ToLower() == city.Name.ToLower()))
+            if (this.context.Cities.Any(c => c.Name.ToLower() == cityInputModel.Name.ToLower()))
             {
-                throw new BadRequestException($"City with name: {city.Name.ToLower()} already exists");
+                throw new BadRequestException($"City with name: {cityInputModel.Name.ToLower()} already exists");
             };
 
-            if (city.Population < 1)
+            if (cityInputModel.Population < 1)
             {
                 throw new BadRequestException($"City population must be a positive number");
             };
 
-            var newCity = this.mapper.Map<City>(city);
+            var newCity = this.mapper.Map<City>(cityInputModel);
             newCity.CityCreatedTime = DateTime.Now;
 
             var result = await this.context.Cities.AddAsync(newCity);
-            this.context.SaveChanges();
+
+            await this.context.SaveChangesAsync();
 
             var resultCity = this.mapper.Map<CityOutputModel>(result.Entity);
 
             return resultCity;
         }
 
-        public CitiesRoadsOutputModel DeleteCity(int id)
+        public async Task<CitiesRoadsOutputModel> DeleteCity(int id)
         {
-            if (!this.context.Cities.Any(c => c.Id == id))
+            if (!(await this.context.Cities.AnyAsync(c => c.Id == id)))
             {
                 throw new NotFoundException($"City with id: {id} doesn't exist");
             }
 
-            var city = this.context.Cities.FirstOrDefault(c => c.Id == id);
-            var roads = this.context.Roads.Include(r => r.FirstCity).Include(r => r.SecondCity).Where(r => r.FirstCityId == id || r.SecondCityId == id).ToList();
+            var city = await this.context.Cities.FirstOrDefaultAsync(c => c.Id == id);
+            var roads = await this.context.Roads
+                .Include(r => r.FirstCity)
+                .Include(r => r.SecondCity)
+                .Where(r => r.FirstCityId == id || r.SecondCityId == id)
+                .ToListAsync();
 
             this.context.Cities.Remove(city);
             this.context.Roads.RemoveRange(roads);
-            this.context.SaveChanges();
+
+            await this.context.SaveChangesAsync();
 
             var citiest = this.mapper.Map<ICollection<CityOutputModel>>(this.context.Cities.ToList());
             var roadsList = this.mapper.Map<ICollection<RoadOutputModel>>(this.context.Roads.ToList());

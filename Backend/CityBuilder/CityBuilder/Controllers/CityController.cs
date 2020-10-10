@@ -20,32 +20,32 @@ namespace CityBuilder.Controllers
 
         [HttpGet]
         [Route("{id}")]
-        public IActionResult GetCityRoadsNetwork(int id)
+        public async Task<IActionResult> GetCityRoadsNetwork(int id)
         {
-            var newCity = this.cityService.GetCityRoadsNetwork(id);
-            return Ok(newCity);
+            var city = await this.cityService.GetCityRoadsNetwork(id);
+            return Ok(city);
         }
 
         [HttpGet]
         [Route("all")]
-        public IActionResult GetCities()
+        public async Task<IActionResult> GetCities()
         {
-            var cities = this.cityService.GetCities();
+            var cities = await this.cityService.GetCities();
             return Ok(cities);
         }
 
         [HttpPost]
-        public async Task<IActionResult> AddCity(AddCityInputModel city)
+        public async Task<IActionResult> AddCity(AddCityInputModel cityInputModel)
         {
-            var newCity = await this.cityService.AddCity(city);
+            var newCity = await this.cityService.AddCity(cityInputModel);
             return Ok(newCity);
         }
 
         [HttpDelete]
         [Route("{id}")]
-        public IActionResult DeleteCity(int id)
+        public async Task<IActionResult> DeleteCity(int id)
         {
-            var cities = this.cityService.DeleteCity(id);
+            var cities = await this.cityService.DeleteCity(id);
             return Ok(cities);
         }
     }
