@@ -5,6 +5,8 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.EntityFrameworkCore;
+using CityBuilder.Services;
+using AutoMapper;
 
 namespace CityBuilder.API
 {
@@ -24,6 +26,11 @@ namespace CityBuilder.API
 
             services.AddDbContext<CityBuilderDbContext>(options =>
             options.UseNpgsql(Configuration.GetConnectionString("DefaultConnection")));
+
+            services.AddScoped<CityService>();
+            services.AddScoped<RoadService>();
+
+            services.AddAutoMapper(typeof(Program));
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
