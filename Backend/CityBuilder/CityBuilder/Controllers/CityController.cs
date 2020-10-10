@@ -1,5 +1,6 @@
 ﻿using System.Threading.Tasks;
 using CityBuilder.Models.InputModels.CityInputModels;
+using CityBuilder.Models.OutputModels.CityOutputModels;
 using CityBuilder.Services;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -20,7 +21,7 @@ namespace CityBuilder.Controllers
 
         [HttpGet]
         [Route("{id}")]
-        public async Task<IActionResult> GetCityRoadsNetwork(int id)
+        public async Task<ActionResult<CityRoadsNetworkOutputModel>> GetCityRoadsNetwork(int id)
         {
             var city = await this.cityService.GetCityRoadsNetwork(id);
             return Ok(city);
@@ -28,14 +29,14 @@ namespace CityBuilder.Controllers
 
         [HttpGet]
         [Route("all")]
-        public async Task<IActionResult> GetCities()
+        public async Task<ActionResult<CitiesOutputModel>> GetCities()
         {
             var cities = await this.cityService.GetCities();
             return Ok(cities);
         }
 
         [HttpPost]
-        public async Task<IActionResult> AddCity(AddCityInputModel cityInputModel)
+        public async Task<ActionResult<CityOutputModel>> AddCity(AddCityInputModel cityInputModel)
         {
             var newCity = await this.cityService.AddCity(cityInputModel);
             return Ok(newCity);
@@ -43,7 +44,7 @@ namespace CityBuilder.Controllers
 
         [HttpDelete]
         [Route("{id}")]
-        public async Task<IActionResult> DeleteCity(int id)
+        public async Task<ActionResult<CitiesRoadsOutputModel>> DeleteCity(int id)
         {
             var cities = await this.cityService.DeleteCity(id);
             return Ok(cities);
