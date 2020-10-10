@@ -12,6 +12,7 @@ using System.Text.Json;
 using CityBuilder.Models.DTOs.IdentityDTOs;
 using System.Text;
 using CityBuilder.Extensions;
+using Microsoft.OpenApi.Models;
 
 namespace CityBuilder.API
 {
@@ -43,6 +44,17 @@ namespace CityBuilder.API
             services.AddScoped<IdentityService>();
 
             services.AddAutoMapper(typeof(Program));
+
+            services.AddSwaggerGen(c =>
+            {
+                c.SwaggerDoc(
+                    "v1",
+                    new OpenApiInfo()
+                    {
+                        Title = "CityBuilder API",
+                        Version = "v1"
+                    });
+            });
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -55,6 +67,13 @@ namespace CityBuilder.API
             app.UseMiddleware(typeof(ErrorHandlingMiddleware));
 
             app.UseHttpsRedirection();
+
+            app.UseSwagger()
+                .UseSwaggerUI(options =>
+                {
+                    options.SwaggerEndpoint("/swagger/v1/swagger.json", "CityBuilder API");
+                    options.RoutePrefix = "v1/swagger.json";
+                });
 
             app.UseRouting();
 
@@ -72,6 +91,7 @@ namespace CityBuilder.API
                 var context = serviceScope.ServiceProvider.GetRequiredService<CityBuilderDbContext>();
                 context.Database.Migrate();
             }
+
         }
     }
 }
