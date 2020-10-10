@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using AutoMapper;
 using CityBuilder.Data;
 using CityBuilder.Data.Entities;
+using CityBuilder.Models.CustomeExceptions;
 using CityBuilder.Models.DTOs.RoadDTOs;
 using CityBuilder.Models.InputModels.CityInputModels;
 using CityBuilder.Models.OutputModels.CityOutputModels;
@@ -28,8 +29,7 @@ namespace CityBuilder.Services
         {
             if (!this.context.Cities.Any(c => c.Id == id))
             {
-                // TODO: Add error handling for city with id doesn't exist
-                return null;
+                throw new NotFoundException($"City with id: {id} doesn't exist");
             }
 
             var city = this.context.Cities.FirstOrDefault(c => c.Id == id);
@@ -72,14 +72,12 @@ namespace CityBuilder.Services
         {
             if (this.context.Cities.Any(c => c.Name.ToLower() == city.Name.ToLower()))
             {
-                // TODO: Add error handling for cities with same name
-                return null;
+                throw new BadRequestException($"City with name: {city.Name.ToLower()} already exists");
             };
 
             if (city.Population < 1)
             {
-                // TODO: Add error handling for population 0 or below 0
-                return null;
+                throw new BadRequestException($"City population must be a positive number");
             };
 
             var newCity = this.mapper.Map<City>(city);
@@ -97,8 +95,7 @@ namespace CityBuilder.Services
         {
             if (!this.context.Cities.Any(c => c.Id == id))
             {
-                // TODO: Add error handling for city with id doesn't exist
-                return null;
+                throw new NotFoundException($"City with id: {id} doesn't exist");
             }
 
             var city = this.context.Cities.FirstOrDefault(c => c.Id == id);

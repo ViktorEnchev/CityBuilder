@@ -7,6 +7,8 @@ using Microsoft.Extensions.Hosting;
 using Microsoft.EntityFrameworkCore;
 using CityBuilder.Services;
 using AutoMapper;
+using CityBuilder.Middleware;
+using System.Text.Json;
 
 namespace CityBuilder.API
 {
@@ -40,6 +42,7 @@ namespace CityBuilder.API
             {
                 app.UseDeveloperExceptionPage();
             }
+            app.UseMiddleware(typeof(ErrorHandlingMiddleware));
 
             app.UseHttpsRedirection();
 
