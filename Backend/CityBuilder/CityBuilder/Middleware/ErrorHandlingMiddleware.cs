@@ -47,6 +47,10 @@ namespace CityBuilder.Middleware
             {
                 status = HttpStatusCode.NotFound;
             }
+            else if (exception is UnauthorizedException)
+            {
+                status = HttpStatusCode.Unauthorized;
+            }
 
             response.Message = exception.Message;
             if (env.IsDevelopment())

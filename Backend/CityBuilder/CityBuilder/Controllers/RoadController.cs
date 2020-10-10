@@ -4,10 +4,12 @@ using CityBuilder.Data.Entities;
 using CityBuilder.Models.InputModels;
 using CityBuilder.Models.InputModels.RoadInputModels;
 using CityBuilder.Services;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace CityBuilder.Controllers
 {
+    [Authorize]
     [ApiController]
     [Route("[controller]")]
     public class RoadController : ControllerBase
@@ -27,7 +29,7 @@ namespace CityBuilder.Controllers
             return Ok(newCity);
         }
 
-        [HttpPost]
+        [HttpGet]
         [Route("all")]
         public IActionResult GetRoadsWithCities()
         {

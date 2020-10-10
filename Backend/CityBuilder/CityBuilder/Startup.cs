@@ -9,6 +9,9 @@ using CityBuilder.Services;
 using AutoMapper;
 using CityBuilder.Middleware;
 using System.Text.Json;
+using CityBuilder.Models.DTOs.IdentityDTOs;
+using System.Text;
+using CityBuilder.Extensions;
 
 namespace CityBuilder.API
 {
@@ -29,8 +32,15 @@ namespace CityBuilder.API
             services.AddDbContext<CityBuilderDbContext>(options =>
             options.UseNpgsql(Configuration.GetConnectionString("DefaultConnection")));
 
+            var indentityConfig = Configuration.GetSection("IdentityConfig");
+
+            services.Configure<IdentityConfig>(indentityConfig);
+
+            services.AddJwtAuthentication(indentityConfig.Get<IdentityConfig>());
+
             services.AddScoped<CityService>();
             services.AddScoped<RoadService>();
+            services.AddScoped<IdentityService>();
 
             services.AddAutoMapper(typeof(Program));
         }
@@ -47,6 +57,8 @@ namespace CityBuilder.API
             app.UseHttpsRedirection();
 
             app.UseRouting();
+
+            app.UseAuthentication();
 
             app.UseAuthorization();
 

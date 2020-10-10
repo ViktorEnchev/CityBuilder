@@ -1,10 +1,12 @@
 ﻿using System.Threading.Tasks;
 using CityBuilder.Models.InputModels.CityInputModels;
 using CityBuilder.Services;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace CityBuilder.Controllers
 {
+    [Authorize]
     [ApiController]
     [Route("[controller]")]
     public class CityController : ControllerBase
@@ -24,7 +26,7 @@ namespace CityBuilder.Controllers
             return Ok(newCity);
         }
 
-        [HttpPost]
+        [HttpGet]
         [Route("all")]
         public IActionResult GetCities()
         {
