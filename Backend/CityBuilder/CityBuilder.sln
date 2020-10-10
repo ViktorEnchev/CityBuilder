@@ -1,7 +1,7 @@
 
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CityBuilder", "CityBuilder\CityBuilder.csproj", "{7F268C86-82F4-4BAB-9153-2EC791EBF5E0}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CityBuilder", "CityBuilder\CityBuilder.csproj", "{818DA639-06CC-42B5-B58C-29B5870A915A}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -9,9 +9,9 @@ Global
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{7F268C86-82F4-4BAB-9153-2EC791EBF5E0}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{7F268C86-82F4-4BAB-9153-2EC791EBF5E0}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{7F268C86-82F4-4BAB-9153-2EC791EBF5E0}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{7F268C86-82F4-4BAB-9153-2EC791EBF5E0}.Release|Any CPU.Build.0 = Release|Any CPU
+		{818DA639-06CC-42B5-B58C-29B5870A915A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{818DA639-06CC-42B5-B58C-29B5870A915A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{818DA639-06CC-42B5-B58C-29B5870A915A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{818DA639-06CC-42B5-B58C-29B5870A915A}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal

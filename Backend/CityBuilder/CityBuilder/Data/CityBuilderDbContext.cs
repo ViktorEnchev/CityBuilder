@@ -14,14 +14,8 @@ namespace CityBuilder.Data
 
         public DbSet<Road> Roads { get; set; }
 
-        public DbSet<CityRoadNetwork> CityRoadNetworks { get; set; }
-
         protected override void OnModelCreating(ModelBuilder builder)
         {
-            builder.Entity<City>().ToTable("City");
-            builder.Entity<Road>().ToTable("Road");
-            builder.Entity<CityRoadNetwork>().ToTable("CityRoadNetwork");
-
             base.OnModelCreating(builder);
         }
     }
