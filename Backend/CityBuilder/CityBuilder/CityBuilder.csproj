@@ -13,7 +13,6 @@
     <Folder Include="Models\" />
     <Folder Include="Models\InputModels\" />
     <Folder Include="Models\OutputModels\" />
-    <Folder Include="Data\Migrations\" />
     <Folder Include="Models\InputModels\CityInputModels\" />
     <Folder Include="AutoMapper\" />
     <Folder Include="Models\InputModels\RoadInputModels\" />
@@ -22,9 +21,14 @@
     <Folder Include="Models\DTOs\" />
     <Folder Include="Models\DTOs\CityDTOs\" />
     <Folder Include="Models\DTOs\RoadDTOs\" />
-    <Folder Include="Middleware\" />
     <Folder Include="Models\CustomeExceptions\" />
     <Folder Include="Models\OutputModels\ErrorOutputModels\" />
+    <Folder Include="Models\InputModels\IdentityInputModels\" />
+    <Folder Include="Models\OutputModels\IdentityOutputModel\" />
+    <Folder Include="Models\DTOs\IdentityDTOs\" />
+    <Folder Include="Extensions\" />
+    <Folder Include="Middleware\" />
+    <Folder Include="Data\Migrations\" />
   </ItemGroup>
   <ItemGroup>
     <PackageReference Include="Microsoft.EntityFrameworkCore" Version="3.1.8" />
@@ -35,5 +39,7 @@
     </PackageReference>
     <PackageReference Include="AutoMapper.Extensions.Microsoft.DependencyInjection" Version="8.0.1" />
     <PackageReference Include="Newtonsoft.Json" Version="12.0.3" />
+    <PackageReference Include="System.IdentityModel.Tokens.Jwt" Version="6.7.1" />
+    <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="3.1.8" />
   </ItemGroup>
 </Project>

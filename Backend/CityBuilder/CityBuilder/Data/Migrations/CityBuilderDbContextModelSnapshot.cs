@@ -71,6 +71,32 @@ namespace CityBuilder.Data.Migrations
                     b.ToTable("Roads");
                 });
 
+            modelBuilder.Entity("CityBuilder.Data.Entities.User", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("integer")
+                        .HasAnnotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn);
+
+                    b.Property<string>("Password")
+                        .HasColumnType("text");
+
+                    b.Property<string>("Username")
+                        .HasColumnType("text");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Users");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            Password = "Demo",
+                            Username = "Demo"
+                        });
+                });
+
             modelBuilder.Entity("CityBuilder.Data.Entities.Road", b =>
                 {
                     b.HasOne("CityBuilder.Data.Entities.City", "FirstCity")

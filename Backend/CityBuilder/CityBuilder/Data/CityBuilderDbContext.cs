@@ -14,8 +14,14 @@ namespace CityBuilder.Data
 
         public DbSet<Road> Roads { get; set; }
 
+        public DbSet<User> Users { get; set; }
+
         protected override void OnModelCreating(ModelBuilder builder)
         {
+            builder.Entity<User>().HasData(
+                new User() { Id = 1,Username = "Demo", Password = "Demo"}
+            );
+
             base.OnModelCreating(builder);
         }
     }

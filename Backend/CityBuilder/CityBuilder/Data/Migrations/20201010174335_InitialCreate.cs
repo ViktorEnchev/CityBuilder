@@ -24,6 +24,20 @@ namespace CityBuilder.Data.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "Users",
+                columns: table => new
+                {
+                    Id = table.Column<int>(nullable: false)
+                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
+                    Username = table.Column<string>(nullable: true),
+                    Password = table.Column<string>(nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Users", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "Roads",
                 columns: table => new
                 {
@@ -52,6 +66,11 @@ namespace CityBuilder.Data.Migrations
                         onDelete: ReferentialAction.Cascade);
                 });
 
+            migrationBuilder.InsertData(
+                table: "Users",
+                columns: new[] { "Id", "Password", "Username" },
+                values: new object[] { 1, "Demo", "Demo" });
+
             migrationBuilder.CreateIndex(
                 name: "IX_Roads_FirstCityId",
                 table: "Roads",
@@ -67,6 +86,9 @@ namespace CityBuilder.Data.Migrations
         {
             migrationBuilder.DropTable(
                 name: "Roads");
+
+            migrationBuilder.DropTable(
+                name: "Users");
 
             migrationBuilder.DropTable(
                 name: "Cities");
