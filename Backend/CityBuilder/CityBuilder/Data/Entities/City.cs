@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 
 namespace CityBuilder.Data.Entities
 {
@@ -8,6 +9,8 @@ namespace CityBuilder.Data.Entities
 
         public string Name { get; set; }
 
-        public ICollection<CityRoadNetwork> CityRoadNetworks { get; set; }
+        public DateTime CityCreatedTime { get; set; }
+
+        public long Population { get; set; }
     }
 }
