@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using AutoMapper;
 using CityBuilder.Data;
 using CityBuilder.Data.Entities;
+using CityBuilder.Models.CustomeExceptions;
 using CityBuilder.Models.InputModels.RoadInputModels;
 using CityBuilder.Models.OutputModels.RoadOutputModels;
 using Microsoft.EntityFrameworkCore;
@@ -26,8 +27,7 @@ namespace CityBuilder.Services
         {
             if (!this.context.Roads.Any(r => r.Id == id))
             {
-                // TODO: Add error handling for Road with id doesn't exists
-                return null;
+                throw new NotFoundException($"Road with id: {id} doesn't exist");
             }
 
             var road = this.context.Roads.Include(r => r.FirstCity).Include(r => r.SecondCity).FirstOrDefault(r => r.Id == id);
@@ -50,32 +50,27 @@ namespace CityBuilder.Services
         {
             if(this.context.Roads.Any(r => r.RoadName.ToLower() == roadInputModel.RoadName.ToLower()))
             {
-                // TODO: Add error handling for duplicate Roads
-                return null;
+                throw new BadRequestException($"Road with name: {roadInputModel.RoadName.ToLower()} already exists");
             }
 
             if (!this.context.Cities.Any(c => c.Id == roadInputModel.FirstCityId))
             {
-                // TODO: Add error handling for First City doesn't exist
-                return null;
+                throw new NotFoundException($"City with id: {roadInputModel.FirstCityId} doesn't exist");
             }
 
             if (!this.context.Cities.Any(c => c.Id == roadInputModel.SecondCityId))
             {
-                // TODO: Add error handling for Second City doesn't exist
-                return null;
+                throw new NotFoundException($"City with id: {roadInputModel.SecondCityId} doesn't exist");
             }
 
             if(roadInputModel.FirstCityId == roadInputModel.SecondCityId)
             {
-                // TODO: Add error handling for Both cities are the same
-                return null;
+                throw new BadRequestException($"First and Second city must not be the same");
             }
 
-            if (roadInputModel.Population < 1)
+            if (roadInputModel.RoadLength < 1)
             {
-                // TODO: Add error handling Population 0 or below 0
-                return null;
+                throw new BadRequestException($"Road length must be a positive number");
             }
 
             var newRoad = this.mapper.Map<Road>(roadInputModel);
@@ -91,8 +86,7 @@ namespace CityBuilder.Services
         {
             if(!this.context.Roads.Any(r => r.Id == id))
             {
-                // TODO: Add error handling for road with id doesn't exist
-                return null;
+                throw new NotFoundException($"Road with id: {id} doesn't exist");
             }
 
             var road = this.context.Roads.FirstOrDefault(r => r.Id == id);
