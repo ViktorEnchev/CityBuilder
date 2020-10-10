@@ -23,23 +23,29 @@ namespace CityBuilder.Services
         private readonly CityBuilderDbContext context;
         private readonly IMapper mapper;
 
-        public RoadOutputModel GetRoadWithCities(int id)
+        public async Task<RoadOutputModel> GetRoadWithCities(int id)
         {
-            if (!this.context.Roads.Any(r => r.Id == id))
+            if (!(await this.context.Roads.AnyAsync(r => r.Id == id)))
             {
                 throw new NotFoundException($"Road with id: {id} doesn't exist");
             }
 
-            var road = this.context.Roads.Include(r => r.FirstCity).Include(r => r.SecondCity).FirstOrDefault(r => r.Id == id);
+            var road = await this.context.Roads
+                .Include(r => r.FirstCity)
+                .Include(r => r.SecondCity)
+                .FirstOrDefaultAsync(r => r.Id == id);
 
             var resultRoad = this.mapper.Map<RoadOutputModel>(road);
 
             return resultRoad;
         }
 
-        public RoadsOutputModel GetRoadsWithCities()
+        public async Task<RoadsOutputModel> GetRoadsWithCities()
         {
-            var roads = this.context.Roads.Include(r => r.FirstCity).Include(r => r.SecondCity).ToList();
+            var roads = await this.context.Roads
+                .Include(r => r.FirstCity)
+                .Include(r => r.SecondCity)
+                .ToListAsync();
 
             var resultRoads = this.mapper.Map<RoadsOutputModel>(roads);
 
@@ -48,22 +54,22 @@ namespace CityBuilder.Services
 
         public async Task<RoadOutputModel> AddRoadBetweenCities(AddRoadInputModel roadInputModel)
         {
-            if(this.context.Roads.Any(r => r.RoadName.ToLower() == roadInputModel.RoadName.ToLower()))
+            if (await this.context.Roads.AnyAsync(r => r.RoadName.ToLower() == roadInputModel.RoadName.ToLower()))
             {
                 throw new BadRequestException($"Road with name: {roadInputModel.RoadName.ToLower()} already exists");
             }
 
-            if (!this.context.Cities.Any(c => c.Id == roadInputModel.FirstCityId))
+            if (!(await this.context.Cities.AnyAsync(c => c.Id == roadInputModel.FirstCityId)))
             {
                 throw new NotFoundException($"City with id: {roadInputModel.FirstCityId} doesn't exist");
             }
 
-            if (!this.context.Cities.Any(c => c.Id == roadInputModel.SecondCityId))
+            if (!(await this.context.Cities.AnyAsync(c => c.Id == roadInputModel.SecondCityId)))
             {
                 throw new NotFoundException($"City with id: {roadInputModel.SecondCityId} doesn't exist");
             }
 
-            if(roadInputModel.FirstCityId == roadInputModel.SecondCityId)
+            if (roadInputModel.FirstCityId == roadInputModel.SecondCityId)
             {
                 throw new BadRequestException($"First and Second city must not be the same");
             }
@@ -77,24 +83,24 @@ namespace CityBuilder.Services
             newRoad.RoadCreatedTime = DateTime.Now;
 
             var resultRoad = await this.context.Roads.AddAsync(newRoad);
-            this.context.SaveChanges();
+            await this.context.SaveChangesAsync();
 
-            return this.GetRoadWithCities(resultRoad.Entity.Id);
+            return await this.GetRoadWithCities(resultRoad.Entity.Id);
         }
 
-        public RoadsOutputModel DeleteRoad(int id)
+        public async Task<RoadsOutputModel> DeleteRoad(int id)
         {
-            if(!this.context.Roads.Any(r => r.Id == id))
+            if (!(await this.context.Roads.AnyAsync(r => r.Id == id)))
             {
                 throw new NotFoundException($"Road with id: {id} doesn't exist");
             }
 
-            var road = this.context.Roads.FirstOrDefault(r => r.Id == id);
+            var road = await this.context.Roads.FirstOrDefaultAsync(r => r.Id == id);
 
             this.context.Roads.Remove(road);
-            this.context.SaveChanges();
+            await this.context.SaveChangesAsync();
 
-            return this.GetRoadsWithCities();
+            return await this.GetRoadsWithCities();
         }
     }
 }

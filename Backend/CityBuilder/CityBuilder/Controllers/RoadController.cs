@@ -23,17 +23,17 @@ namespace CityBuilder.Controllers
 
         [HttpGet]
         [Route("{id}")]
-        public IActionResult GetRoadWithCities(int id)
+        public async Task<IActionResult> GetRoadWithCities(int id)
         {
-            var newCity = this.roadService.GetRoadWithCities(id);
-            return Ok(newCity);
+            var road = await this.roadService.GetRoadWithCities(id);
+            return Ok(road);
         }
 
         [HttpGet]
         [Route("all")]
-        public IActionResult GetRoadsWithCities()
+        public async Task<IActionResult> GetRoadsWithCities()
         {
-            var roads = this.roadService.GetRoadsWithCities();
+            var roads = await this.roadService.GetRoadsWithCities();
             return Ok(roads);
         }
 
@@ -46,9 +46,9 @@ namespace CityBuilder.Controllers
 
         [HttpDelete]
         [Route("{id}")]
-        public IActionResult DeleteRoad(int id)
+        public async Task<IActionResult> DeleteRoad(int id)
         {
-            var roads = this.roadService.DeleteRoad(id);
+            var roads = await this.roadService.DeleteRoad(id);
             return Ok(roads);
         }
     }
