@@ -39,7 +39,7 @@ const LoginScreen = (props) => {
 
       if (response.status === 200) {
         localStorage.setItem("token", `Bearer ${response.data.token}`);
-        console.log("go to next screen");
+        return props.history.replace("/cities");
       }
       setErrorMessage(response.data.message);
     } catch (e) {

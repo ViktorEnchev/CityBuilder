@@ -2,7 +2,7 @@ import React from "react";
 import PropTypes from "prop-types";
 import Button from "@material-ui/core/Button";
 
-const BaseButton = ({ text, disabled, endIcon, onClick }) => {
+const BaseButton = ({ className, text, disabled, endIcon, onClick }) => {
   return (
     <Button
       variant={"contained"}
@@ -10,6 +10,7 @@ const BaseButton = ({ text, disabled, endIcon, onClick }) => {
       disabled={disabled}
       onClick={onClick}
       endIcon={endIcon}
+      className={className}
     >
       {text}
     </Button>
@@ -21,6 +22,7 @@ BaseButton.propTypes = {
   disabled: PropTypes.bool.isRequired,
   onClick: PropTypes.func.isRequired,
   endIcon: PropTypes.node,
+  className: PropTypes.string,
 };
 
 export default BaseButton;
