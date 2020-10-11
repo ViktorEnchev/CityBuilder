@@ -103,7 +103,7 @@ const AddRoadScreen = (props) => {
           />
           <BaseInput
             className={classes.formControl}
-            label={"Road length"}
+            label={"Road length (km)"}
             value={roadLength}
             required={true}
             onChange={(e) => setRoadLength(Number(e.target.value))}
