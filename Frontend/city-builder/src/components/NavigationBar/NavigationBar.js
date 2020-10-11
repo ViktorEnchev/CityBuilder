@@ -19,6 +19,9 @@ const NavigationBar = () => {
         <Button color="inherit" onClick={() => history.push("/city/add")}>
           New City
         </Button>
+        <Button color="inherit" onClick={() => history.push("/road/add")}>
+          New Road
+        </Button>
         <Button color="inherit" onClick={() => onLogout()}>
           Logout
         </Button>

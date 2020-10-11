@@ -1,8 +1,5 @@
 import React, { useEffect, useState } from "react";
 import { axiosGet } from "src/axios/axios";
-import List from "@material-ui/core/List";
-import ListItem from "@material-ui/core/ListItem";
-import ListItemText from "@material-ui/core/ListItemText";
 import KeyboardArrowRightIcon from "@material-ui/icons/KeyboardArrowRight";
 import NotificationPopup from "src/components/NotificationPopup";
 import NavigationBar from "src/components/NavigationBar";
@@ -44,7 +41,6 @@ const CitiesScreen = (props) => {
       try {
         const response = await axiosGet("city/all");
 
-        console.log(response);
         if (response.status === 200) {
           return setCities(response.data.cities);
         }
@@ -60,13 +56,6 @@ const CitiesScreen = (props) => {
   return (
     <CenterWrapper>
       <NavigationBar />
-      {/* <List>
-        {cities.map(({ id, name }, index) => (
-          <ListItem key={index} button component="a">
-            <ListItemText primary={name} />
-          </ListItem>
-        ))}
-      </List> */}
       {cities && (
         <TableContainer component={Paper}>
           <Table className={classes.table} aria-label="simple table">
@@ -80,7 +69,7 @@ const CitiesScreen = (props) => {
             </TableHead>
             <TableBody>
               {cities.map((city) => (
-                <TableRow key={city.id} href={`/city-roads/${city.id}`}>
+                <TableRow key={city.id}>
                   <TableCell align="center">{city.id}</TableCell>
                   <TableCell align="center">{city.name}</TableCell>
                   <TableCell align="center">{city.population}</TableCell>
@@ -102,7 +91,7 @@ const CitiesScreen = (props) => {
         <BaseButton
           disabled={isDisabled()}
           text={"Roads"}
-          onClick={() => {}}
+          onClick={() => props.history.replace(`/city-roads/${cityId}`)}
           endIcon={<KeyboardArrowRightIcon />}
         />
       </div>
