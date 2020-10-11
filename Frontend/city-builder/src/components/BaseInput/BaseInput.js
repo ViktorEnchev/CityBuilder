@@ -2,7 +2,14 @@ import React from "react";
 import PropTypes from "prop-types";
 import TextField from "@material-ui/core/TextField";
 
-const BaseInput = ({ type, label, required, placeholder, onChange }) => {
+const BaseInput = ({
+  className,
+  type,
+  label,
+  required,
+  placeholder,
+  onChange,
+}) => {
   return (
     <TextField
       required={required}
@@ -10,6 +17,7 @@ const BaseInput = ({ type, label, required, placeholder, onChange }) => {
       placeholder={placeholder}
       type={type}
       onChange={onChange}
+      className={className}
     />
   );
 };
